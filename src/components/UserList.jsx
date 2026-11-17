@@ -3,6 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import { fetchUsers } from '../services/userApi';
 
 function UserList() {
+
     const {
         data,
         isLoading,
@@ -11,7 +12,10 @@ function UserList() {
     } = useQuery({
         queryKey: ['users'],
         queryFn: fetchUsers,
+        staleTime: 60000,
+        gcTime: 300000,
     });
+
 
     if (isLoading) {
         return <p>Loading users...</p>;

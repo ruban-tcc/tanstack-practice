@@ -1,17 +1,24 @@
 
 import { useState } from 'react';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { addUser } from '../services/userApi';
 
 function AddUser() {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
 
+
+    const queryClient = useQueryClient();
+
     const mutation = useMutation({
         mutationFn: addUser,
 
         onSuccess: (data) => {
             alert(`User added: ${data.name}`);
+
+            queryClient.invalidateQueries({
+                queryKey: ['users'],
+            });
 
             setName('');
             setEmail('');
@@ -21,6 +28,7 @@ function AddUser() {
             alert(error.message);
         },
     });
+
 
     const handleSubmit = (e) => {
         e.preventDefault();

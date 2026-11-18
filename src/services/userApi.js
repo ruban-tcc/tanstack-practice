@@ -48,3 +48,14 @@ export const likeUser = async (userId) => {
 
   return response.json();
 };
+export const searchUsers = async (username) => {
+  const response = await fetch(
+    `${API_URL}?username=${encodeURIComponent(username)}`
+  );
+
+  if (!response.ok) {
+    throw new Error('Failed to search users');
+  }
+
+  return response.json();
+};
